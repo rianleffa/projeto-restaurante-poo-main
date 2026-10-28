@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173b32">
+  <meta name="description" content="Painel de gestão do Mesa Viva.">
+  <title>Painel — Mesa Viva</title>
+  <link rel="stylesheet" href="/system.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="Mesa Viva, página inicial">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M8 22c0-8 5.2-14 12-14s12 6 12 14-5.2 12-12 12S8 30 8 22Z"/><path d="M14 22c0-4 2.6-7 6-7s6 3 6 7-2.6 6-6 6-6-2-6-6Z"/><path d="M20 8V5m-8 5-2-2m18 2 2-2"/></svg></span>
+        <span>Mesa<span class="brand-light">Viva</span></span>
+      </a>
+      <div class="sidebar-label">MENU PRINCIPAL</div>
+      <nav class="side-nav" aria-label="Menu do sistema">
+        <button class="nav-item active" data-view="inicio"><span class="nav-symbol">⌂</span> Visão geral</button>
+        <button class="nav-item" data-view="pedidos"><span class="nav-symbol">▤</span> Pedidos <span class="nav-count" id="nav-order-count">0</span></button>
+        <button class="nav-item" data-view="produtos"><span class="nav-symbol">◉</span> Produtos</button>
+        <button class="nav-item" data-view="clientes"><span class="nav-symbol">♧</span> Clientes</button>
+        <button class="nav-item" data-view="relatorios"><span class="nav-symbol">⌁</span> Relatórios</button>
+        <button class="nav-item" data-view="notificacoes"><span class="nav-symbol">♢</span> Notificações <span class="notification-badge" id="nav-notification-count" hidden>0</span></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="help-card"><span class="help-spark">✳</span><b>Feito para servir bem</b><p>Uma rotina mais tranquila começa com tudo no lugar.</p><a href="/">Conheça o Mesa Viva ↗</a></div><div class="version-label">MESA VIVA <span>•</span> GESTÃO DO RESTAURANTE</div></div>
+    </aside>
+
+    <div class="main-area">
+      <header class="app-header"><button class="mobile-menu" id="mobile-menu" aria-label="Abrir menu">☰</button><div class="breadcrumb"><span>Restaurante</span><b>/</b><strong id="breadcrumb-current">Visão geral</strong></div><div class="header-right"><span class="live-indicator"><i></i> Sistema ativo</span><button class="header-icon" data-view="notificacoes" aria-label="Ver notificações">♢<span id="header-notification-dot" hidden></span></button><div class="user-chip"><span class="avatar">MV</span><span><b>Minha casa</b><small>Administrador</small></span></div></div></header>
+
+      <main class="content">
+        <div id="error-banner" class="error-banner" role="alert" hidden></div>
+        <div id="loading" class="loading-state"><span class="spinner"></span> Preparando sua mesa...</div>
+
+        <section class="view active" id="view-inicio">
+          <div class="welcome-row"><div><p class="overline" id="today-label">SEU RESUMO DE HOJE</p><h1>Bom ter você por aqui<span class="greeting-period">.</span></h1><p class="subheading">Acompanhe o movimento e mantenha tudo fluindo.</p></div><button class="btn btn-primary" data-open="pedido">＋ <span>Novo pedido</span></button></div>
+          <div class="metric-grid">
+            <article class="metric-card"><div class="metric-top"><span>Pedidos realizados</span><span class="metric-icon icon-sand">▤</span></div><strong id="metric-orders">0</strong><small id="metric-orders-note">Pedidos no sistema</small></article>
+            <article class="metric-card"><div class="metric-top"><span>Em andamento</span><span class="metric-icon icon-peach">◷</span></div><strong id="metric-active">0</strong><small>Pedidos que ainda não foram entregues</small></article>
+            <article class="metric-card"><div class="metric-top"><span>Vendas registradas</span><span class="metric-icon icon-green">↗</span></div><strong id="metric-sales">R$ 0,00</strong><small>Faturamento total dos pedidos</small></article>
+            <article class="metric-card"><div class="metric-top"><span>Clientes</span><span class="metric-icon icon-lilac">♧</span></div><strong id="metric-clients">0</strong><small>Clientes no seu cadastro</small></article>
+          </div>
+          <div class="dashboard-grid">
+            <section class="panel orders-panel"><div class="panel-heading"><div><p class="overline">ACOMPANHAMENTO</p><h2>Pedidos recentes</h2></div><button class="text-action" data-view="pedidos">Ver todos <span>→</span></button></div><div id="recent-orders" class="recent-orders"></div></section>
+            <section class="panel shortcuts-panel"><div class="panel-heading"><div><p class="overline">NO SEU RITMO</p><h2>Ações rápidas</h2></div></div><button class="shortcut" data-open="pedido"><span class="shortcut-icon">＋</span><span><b>Registrar pedido</b><small>Adicionar itens e forma de pagamento</small></span><i>→</i></button><button class="shortcut" data-open="produto"><span class="shortcut-icon shortcut-olive">◉</span><span><b>Cadastrar produto</b><small>Atualizar os sabores da casa</small></span><i>→</i></button><button class="shortcut" data-open="cliente"><span class="shortcut-icon shortcut-orange">♧</span><span><b>Adicionar cliente</b><small>Manter os contatos por perto</small></span><i>→</i></button></section>
+          </div>
+          <section class="panel bottom-panel"><div class="panel-heading"><div><p class="overline">MOVIMENTO DA CASA</p><h2>O que está acontecendo</h2></div><button class="text-action" data-view="notificacoes">Ver notificações <span>→</span></button></div><div id="recent-notifications" class="notification-list compact"></div></section>
+        </section>
+
+        <section class="view" id="view-pedidos" hidden><div class="page-heading"><div><p class="overline">COZINHA E SALÃO</p><h1>Pedidos</h1><p class="subheading">Acompanhe cada pedido e atualize a equipe.</p></div><button class="btn btn-primary" data-open="pedido">＋ <span>Novo pedido</span></button></div><div class="filter-row"><span class="filter-note" id="order-summary"></span><label class="search-box"><span>⌕</span><input id="order-search" type="search" placeholder="Buscar cliente ou pedido"></label></div><div id="all-orders" class="order-list"></div></section>
+
+        <section class="view" id="view-produtos" hidden><div class="page-heading"><div><p class="overline">CARDÁPIO DA CASA</p><h1>Produtos</h1><p class="subheading">Pizzas e outros itens que fazem parte do seu menu.</p></div><button class="btn btn-primary" data-open="produto">＋ <span>Novo produto</span></button></div><div class="filter-row"><span class="filter-note" id="product-summary"></span><label class="search-box"><span>⌕</span><input id="product-search" type="search" placeholder="Buscar produto"></label></div><div id="product-grid" class="product-grid"></div></section>
+
+        <section class="view" id="view-clientes" hidden><div class="page-heading"><div><p class="overline">QUEM VOLTA SEMPRE</p><h1>Clientes</h1><p class="subheading">Seus contatos reunidos em um só lugar.</p></div><button class="btn btn-primary" data-open="cliente">＋ <span>Novo cliente</span></button></div><div class="filter-row"><span class="filter-note" id="client-summary"></span><label class="search-box"><span>⌕</span><input id="client-search" type="search" placeholder="Buscar cliente"></label></div><div id="client-list" class="client-list"></div></section>
+
+        <section class="view" id="view-relatorios" hidden><div class="page-heading"><div><p class="overline">NÚMEROS À VISTA</p><h1>Relatórios</h1><p class="subheading">Um panorama simples do movimento do restaurante.</p></div><span class="report-date">Visão geral</span></div><div class="metric-grid report-metrics"><article class="metric-card"><div class="metric-top"><span>Faturamento</span><span class="metric-icon icon-green">↗</span></div><strong id="report-sales">R$ 0,00</strong><small>Somatório dos pedidos registrados</small></article><article class="metric-card"><div class="metric-top"><span>Pedidos</span><span class="metric-icon icon-sand">▤</span></div><strong id="report-orders">0</strong><small>Total de pedidos no sistema</small></article><article class="metric-card"><div class="metric-top"><span>Produtos</span><span class="metric-icon icon-peach">◉</span></div><strong id="report-products">0</strong><small>Itens disponíveis no cardápio</small></article><article class="metric-card"><div class="metric-top"><span>Clientes</span><span class="metric-icon icon-lilac">♧</span></div><strong id="report-clients">0</strong><small>Contatos cadastrados</small></article></div><div class="panel status-report"><div class="panel-heading"><div><p class="overline">ETAPA DOS PEDIDOS</p><h2>Como está o andamento</h2></div></div><div id="status-breakdown" class="status-breakdown"></div></div></section>
+
+        <section class="view" id="view-notificacoes" hidden><div class="page-heading"><div><p class="overline">DE OLHO NO MOVIMENTO</p><h1>Notificações</h1><p class="subheading">Atualizações enviadas quando o status de um pedido muda.</p></div><span class="notification-count-pill" id="notification-summary">0 atualizações</span></div><div class="panel notification-panel"><div class="panel-heading"><div><p class="overline">RECENTES</p><h2>Atualizações dos pedidos</h2></div></div><div id="all-notifications" class="notification-list"></div></div></section>
+
+        <footer class="app-footer"><span>Mesa Viva <span>•</span> Gestão para restaurante</span><a href="/">Voltar à apresentação ↗</a></footer>
+      </main>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog class="form-dialog" id="dialog-cliente"><form id="customer-form" method="dialog"><div class="dialog-heading"><div><p class="overline">CADASTRO</p><h2>Novo cliente</h2></div><button type="button" class="dialog-close" data-close aria-label="Fechar">×</button></div><label>Nome completo<input name="nome" required maxlength="100" autocomplete="name" placeholder="Ex.: Ana Souza"></label><div class="form-two"><label>Telefone<input name="telefone" required maxlength="30" autocomplete="tel" placeholder="(11) 99999-0000"></label><label>E-mail<input name="email" required maxlength="120" type="email" autocomplete="email" placeholder="ana@email.com"></label></div><label>Endereço<input name="endereco" required maxlength="180" autocomplete="street-address" placeholder="Rua, número, bairro"></label><div class="dialog-actions"><button type="button" class="btn btn-quiet" data-close>Cancelar</button><button class="btn btn-primary" type="submit">Salvar cliente</button></div></form></dialog>
+
+  <dialog class="form-dialog" id="dialog-produto"><form id="product-form" method="dialog"><div class="dialog-heading"><div><p class="overline">CARDÁPIO</p><h2>Novo produto</h2></div><button type="button" class="dialog-close" data-close aria-label="Fechar">×</button></div><div class="form-two"><label>Código<input name="codigo" required type="number" min="1" step="1" placeholder="Ex.: 50"></label><label>Tipo<select name="tipo"><option value="pizza">Pizza</option><option value="produto">Outro produto</option></select></label></div><label>Nome do produto<input name="nome" required maxlength="100" placeholder="Ex.: Pizza de Cogumelos"></label><label>Descrição<input name="descricao" required maxlength="220" placeholder="Ingredientes ou detalhes do produto"></label><label>Preço unitário<input name="preco" required type="number" min="0.01" step="0.01" placeholder="Ex.: 42,00"></label><div class="dialog-actions"><button type="button" class="btn btn-quiet" data-close>Cancelar</button><button class="btn btn-primary" type="submit">Salvar produto</button></div></form></dialog>
+
+  <dialog class="form-dialog order-dialog" id="dialog-pedido"><form id="order-form" method="dialog"><div class="dialog-heading"><div><p class="overline">NOVO PEDIDO</p><h2>Vamos preparar?</h2></div><button type="button" class="dialog-close" data-close aria-label="Fechar">×</button></div><label>Cliente<select name="clienteEmail" id="order-client" required></select></label><div class="items-heading"><b>Itens do pedido</b><button type="button" class="add-item" id="add-order-item">＋ Adicionar item</button></div><div id="order-items"></div><div class="form-two"><label>Desconto (%)<input name="desconto" type="number" min="0" max="100" step="0.01" value="0"></label><label>Pagamento<select name="pagamento"><option value="PIX">PIX</option><option value="CARTAO">Cartão</option><option value="DINHEIRO">Dinheiro</option></select></label></div><div class="dialog-actions"><button type="button" class="btn btn-quiet" data-close>Cancelar</button><button class="btn btn-primary" type="submit">Finalizar pedido</button></div></form></dialog>
+
+  <template id="order-item-template"><div class="order-item-row"><div class="form-two item-fields"><label>Produto<select class="item-product" required></select></label><label>Qtd.<input class="item-quantity" type="number" min="1" step="1" value="1" required></label></div><div class="toppings" hidden><label><input type="checkbox" class="item-borda"> Borda recheada <small>+ R$ 10</small></label><label><input type="checkbox" class="item-queijo"> Queijo extra <small>+ R$ 5</small></label><label><input type="checkbox" class="item-bacon"> Bacon <small>+ R$ 6</small></label></div><button type="button" class="remove-item" aria-label="Remover item">×</button></div></template>
+</body>
+</html>
